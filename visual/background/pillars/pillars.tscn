@@ -1,0 +1,78 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://visual/background/pillars/pillars.png" type="Texture" id=1]
+
+[sub_resource type="Shader" id=10]
+code = "shader_type canvas_item;
+
+uniform float screen_height = 1080;
+uniform float displace = 0.035;
+uniform float speed = 1.5;
+uniform float waviness = 2.0;
+
+void fragment() {
+	float diff_x = 0.0;
+	if ( int(UV.y * screen_height) % 2 == 0 ){
+		diff_x += displace * sin((waviness * UV.y) + (speed * TIME));
+	}
+	else{
+		diff_x += -displace * sin((waviness * UV.y) + (speed * TIME));
+	}
+	COLOR = texture(TEXTURE, vec2(UV.x + diff_x, UV.y));
+}
+"
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = SubResource( 10 )
+shader_param/screen_height = 180.0
+shader_param/displace = 0.035
+shader_param/speed = 1.0
+shader_param/waviness = 2.0
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 320, 180 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 1 )
+region = Rect2( 320, 0, 320, 180 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 1 )
+region = Rect2( 640, 0, 320, 180 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 1 )
+region = Rect2( 960, 0, 320, 180 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 1 )
+region = Rect2( 1280, 0, 320, 180 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 1 )
+region = Rect2( 1600, 0, 320, 180 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 1 )
+region = Rect2( 1920, 0, 320, 180 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 1 )
+region = Rect2( 2240, 0, 320, 180 )
+
+[sub_resource type="SpriteFrames" id=21]
+animations = [ {
+"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Pillars" type="AnimatedSprite"]
+material = SubResource( 12 )
+scale = Vector2( 6, 6 )
+frames = SubResource( 21 )
+frame = 7
+playing = true
+centered = false

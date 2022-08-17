@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://visual/white.png" type="Texture" id=1]
+[ext_resource path="res://visual/shockwave/shockwave.gd" type="Script" id=2]
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+uniform vec2 center;
+uniform float force;
+uniform float size;
+uniform float thickness;
+
+void fragment() {
+	float ratio = SCREEN_PIXEL_SIZE.x / SCREEN_PIXEL_SIZE.y;
+	vec2 scaledUV = (SCREEN_UV - vec2(0.5, 0)) / vec2(ratio, 1.0) + vec2(0.5, 0);
+	vec2 s_center = vec2((center.x - 0.5) / ratio + 0.5, center.y);
+	float mask = (1.0 - smoothstep(size - 0.1, size, length(scaledUV - s_center))) * 
+			smoothstep(size - thickness - 0.1, size - thickness, length(scaledUV - s_center));
+	vec2 disp = normalize(SCREEN_UV - s_center) * force * mask;
+	COLOR = texture(SCREEN_TEXTURE, SCREEN_UV - disp);
+//	COLOR.rgb = vec3(mask);
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = SubResource( 2 )
+shader_param/center = Vector2( 0.135, 0.5 )
+shader_param/force = 0.05
+shader_param/size = 0.0
+shader_param/thickness = 0.1
+
+[node name="Shockwave" type="TextureRect"]
+material = SubResource( 3 )
+margin_right = 1920.0
+margin_bottom = 1080.0
+texture = ExtResource( 1 )
+stretch_mode = 1
+script = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
