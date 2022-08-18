@@ -44,6 +44,13 @@ func lose(side):
 		left_score += 1.0
 	$ResetTimer.start()
 
+func _input(event):
+	if Input.is_action_just_pressed("reset"):
+		ball_speed = 400
+		left_score = 0
+		right_score = 0
+		get_tree().change_scene("res://main.tscn")
+
 
 func _on_ResetTimer_timeout():
 	ball_speed = (left_score + right_score) * 100 + 400
