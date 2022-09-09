@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 
 var wall_particle = preload("res://visual/particle/wall_hit_particle.tscn")
+var paddle_particle = preload("res://visual/particle/paddle_hit_particle.tscn")
 
 var current_state = States.MOVE
 enum States {
@@ -28,16 +29,24 @@ func _move(delta):
 	velocity.x = velocity.x / abs(velocity.x) * GameController.ball_speed # changes speed to what GameController says
 	var col_info = move_and_collide(velocity * delta)
 	if col_info:
+		$AudioStreamPlayer.play()
 		match col_info.collider.get_collision_layer():
 			1: # wall
 				velocity = velocity.bounce(col_info.normal)
-				var particle_instance = wall_particle.instance()
-				particle_instance.process_material.direction = Vector3(col_info.normal.x, col_info.normal.y, 0)
-				particle_instance.position = col_info.position
-				get_parent().add_child(particle_instance)
-				particle_instance.restart()
+				# particle
+#				var particle_instance = wall_particle.instance()
+#				particle_instance.process_material.direction = Vector3(col_info.normal.x, col_info.normal.y, 0)
+#				particle_instance.position = col_info.position
+#				get_parent().add_child(particle_instance)
+#				particle_instance.restart()
 			2: # paddle
 				velocity.x = -velocity.x
+				# particle
+#				var particle_instance = paddle_particle.instance()
+#				particle_instance.process_material.direction = Vector3(col_info.normal.x, col_info.normal.y, 0)
+#				particle_instance.position = col_info.position
+#				get_parent().add_child(particle_instance)
+#				particle_instance.restart()
 				# difference from paddle to ball normalized
 				var diff = (position.y - col_info.collider.position.y) / 120
 				velocity.y = diff * paddle_factor * abs(velocity.x) # apply vertical velocity

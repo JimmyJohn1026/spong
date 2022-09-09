@@ -5,7 +5,7 @@
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.748718, 1 )
-colors = PoolColorArray( 1, 0.933333, 0, 0.623529, 0.621582, 0, 0, 0.521569, 0.0534283, 0, 0.14502, 0 )
+colors = PoolColorArray( 0.756863, 1, 0, 1, 0, 1, 0.390625, 0.521569, 0.0534283, 0, 0.14502, 0 )
 
 [sub_resource type="GradientTexture" id=2]
 gradient = SubResource( 1 )
@@ -22,7 +22,7 @@ curve = SubResource( 3 )
 flag_disable_z = true
 spread = 67.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 104.45
+initial_velocity = 551.89
 initial_velocity_random = 0.77
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
